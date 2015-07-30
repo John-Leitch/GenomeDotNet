@@ -7,6 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Components", "Components\Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Components.Genetics", "Components.Genetics\Components.Genetics.csproj", "{7231CEE6-5169-439A-BDCF-CDB45E8ACF0C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HaplogroupTrees", "HaplogroupTrees", "{7ABC060C-7841-420F-AB6F-B8F80F63129E}"
+	ProjectSection(SolutionItems) = preProject
+		HaplogroupTrees\ydnatree.json = HaplogroupTrees\ydnatree.json
+		HaplogroupTrees\ydnatree.txt = HaplogroupTrees\ydnatree.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
