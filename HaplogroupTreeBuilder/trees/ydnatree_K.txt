@@ -1,0 +1,30 @@
+K   M9, P128/PF5504, P131/PF5493, P132/PF5480
+• K*   -
+• LT or K1   L298/P326, etc.
+• • K1*   -
+• • L or K1a   M20/PF5570, etc.
+• • T or K1b   M184/Page34/USP9Y+3178, etc.
+• K2   M526/PF5979 -This was previously classified as K(xLT)
+• • K2*   -
+• • NO or K2a   M214/Page39 etc.
+• • • N or K2a1   M231/Page91
+• • • O or K2a2   M175 etc.
+• • K2b   M1221/P331/PF5911
+• • • K2b*   -
+• • • K2b1   P397, P399
+• • • • K2b1*   -
+• • • • K2b1a   CTS5650/F3744/P405
+• • • • • K2b1a*   -
+• • • • • K2b1a1   P60, P304, P308
+• • • • • K2b1a2   P79/P299, P307
+• • • • • K2b1a3   P315
+• • • • • • K2b1a3*   -
+• • • • • • K2b1a3a   P401
+• • • • • S or K2b1a4   M230, etc.
+• • • • K2b1b   P336
+• • • • K2b1c   P378
+• • • • M or K2b1d   P256, etc.
+• • • P or K2b2   P295/PF5866/S8, etc.
+• • • K2c   P261, P263
+• • • K2d   P402, P403
+• • • K2e   M147

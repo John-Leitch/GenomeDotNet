@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HaplogroupTreeBuilder", "HaplogroupTreeBuilder\HaplogroupTreeBuilder.csproj", "{FC126136-EEA7-44CA-B483-AE999D5CBC76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Components", "Components\Components.csproj", "{D3C57893-EFBD-465E-830C-104990BFA62D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Components.Genetics", "Components.Genetics\Components.Genetics.csproj", "{7231CEE6-5169-439A-BDCF-CDB45E8ACF0C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FC126136-EEA7-44CA-B483-AE999D5CBC76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC126136-EEA7-44CA-B483-AE999D5CBC76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC126136-EEA7-44CA-B483-AE999D5CBC76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC126136-EEA7-44CA-B483-AE999D5CBC76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3C57893-EFBD-465E-830C-104990BFA62D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3C57893-EFBD-465E-830C-104990BFA62D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3C57893-EFBD-465E-830C-104990BFA62D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3C57893-EFBD-465E-830C-104990BFA62D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7231CEE6-5169-439A-BDCF-CDB45E8ACF0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7231CEE6-5169-439A-BDCF-CDB45E8ACF0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7231CEE6-5169-439A-BDCF-CDB45E8ACF0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7231CEE6-5169-439A-BDCF-CDB45E8ACF0C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
