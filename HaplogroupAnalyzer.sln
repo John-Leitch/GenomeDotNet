@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HaplogroupTrees", "Haplogro
 	ProjectSection(SolutionItems) = preProject
 		HaplogroupTrees\ydnatree.json = HaplogroupTrees\ydnatree.json
 		HaplogroupTrees\ydnatree.txt = HaplogroupTrees\ydnatree.txt
+		HaplogroupTrees\ydnatree_nosnps.txt = HaplogroupTrees\ydnatree_nosnps.txt
 	EndProjectSection
 EndProject
 Global
