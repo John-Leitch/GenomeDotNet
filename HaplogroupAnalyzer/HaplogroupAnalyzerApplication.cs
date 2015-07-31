@@ -114,7 +114,11 @@ namespace HaplogroupAnalyzer
                 {
                     if (!matchTable.ContainsKey(x.Name))
                     {
-                        return new StringNode() { Value = x.Name };
+                        
+                        return new StringNode() 
+                        { 
+                            Value = "~DarkGray~" + x.Name + "~R~" 
+                        };
                     }
 
                     var m = matchTable[x.Name];
