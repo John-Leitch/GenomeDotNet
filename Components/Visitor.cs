@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Components
 {
-    public static class Visitor<TElement>
+    public static class Visitor
     {
-        public static void Visit(
+        public static void Visit<TElement>(
             TElement group,
             Action<TElement> action,
             Func<TElement, IEnumerable<TElement>> getChildren)

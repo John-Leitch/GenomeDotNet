@@ -39,7 +39,7 @@ namespace Components.Genetics
 
         public void Visit(Action<Haplogroup> action)
         {
-            Visitor<Haplogroup>.Visit(this, action, x => x.Children);
+            Visitor.Visit(this, action, x => x.Children);
         }
     }
 }
