@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HaplogroupTrees", "Haplogro
 		HaplogroupTrees\ydnatree_nosnps.txt = HaplogroupTrees\ydnatree_nosnps.txt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HaplogroupAnalyzer", "HaplogroupAnalyzer\HaplogroupAnalyzer.csproj", "{286F2524-DB92-4064-8BEF-DA675EBC31BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{7231CEE6-5169-439A-BDCF-CDB45E8ACF0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7231CEE6-5169-439A-BDCF-CDB45E8ACF0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7231CEE6-5169-439A-BDCF-CDB45E8ACF0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{286F2524-DB92-4064-8BEF-DA675EBC31BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{286F2524-DB92-4064-8BEF-DA675EBC31BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{286F2524-DB92-4064-8BEF-DA675EBC31BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{286F2524-DB92-4064-8BEF-DA675EBC31BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
