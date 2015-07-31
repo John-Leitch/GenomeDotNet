@@ -202,6 +202,7 @@
     <Compile Include="StringEnumerableExtension.cs" />
     <Compile Include="StringExtension.cs" />
     <Compile Include="StringTemplate.cs" />
+    <Compile Include="StringTree.cs" />
     <Compile Include="SystemHelper.cs" />
     <Compile Include="SystemInfo.cs" />
     <Compile Include="Table.cs" />
