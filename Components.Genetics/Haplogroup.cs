@@ -41,5 +41,24 @@ namespace Components.Genetics
         {
             Visitor.Visit(this, action, x => x.Children);
         }
+
+        public Haplogroup Where(Func<Haplogroup, bool> predicate)
+        {
+            return Visitor.Where(
+                this,
+                predicate,
+                (parent, child) =>
+                {
+                    parent.Children.Add(child);
+                    child.Parent = parent;
+                },
+                (parent, child) =>
+                {
+                    parent.Children.Remove(child);
+                    child.Parent = null;
+                },
+                x => x.Children);
+        }
+
     }
 }
