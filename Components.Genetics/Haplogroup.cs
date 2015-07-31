@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Script.Serialization;
 
@@ -34,6 +35,11 @@ namespace Components.Genetics
         public int GetDepth()
         {
             return Parent != null ? Parent.GetDepth() + 1 : 0;
+        }
+
+        public void Visit(Action<Haplogroup> action)
+        {
+            Visitor<Haplogroup>.Visit(this, action, x => x.Children);
         }
     }
 }
