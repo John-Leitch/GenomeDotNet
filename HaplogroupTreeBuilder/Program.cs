@@ -13,6 +13,8 @@ namespace HaplogroupTreeBuilder
 {
     class Program
     {
+        
+
         private static string UnwrapValue(HtmlNode node)
         {
             if (node.Name == "#text")
@@ -291,77 +293,37 @@ namespace HaplogroupTreeBuilder
 
         private static string Dump(Haplogroup group, bool dumpSnps)
         {
-            var sb = new StringBuilder();
-            Dump(group, dumpSnps, sb, 0, new int[] { }, true);
-            
-            return sb.ToString();
-        }
-
-        private static void Dump(
-            Haplogroup group,
-            bool dumpSnps,
-            StringBuilder sb, 
-            int indentation, 
-            int[] siblingDepths, 
-            bool lastChild)
-        {
-            for (int i = 0; i < indentation; i++)
-            {
-                sb.Append(
-                    lastChild && i == indentation - 1 ? "└" :
-                    siblingDepths.Any() && siblingDepths.Last() == i && i == indentation - 1 ? "├" :
-                    siblingDepths.Any() && siblingDepths.Contains(i) ? "│" :
-                    " ");
-            }
-
-            sb.AppendLine(
-                !dumpSnps || !group.Mutations.Any() ? 
-                    group.Name :
+            var d = dumpSnps;
+            return StringTree.Create(
+                group,
+                x => !d || !x.Mutations.Any() ?
+                    x.Name :
                     string.Format(
-                        "{0} ({1})", 
-                        group.Name,
-                        group.Mutations.Select(x => x.Snp).Join(", ")));
-            
-            foreach (var child in group.Children)
-            {
-                var lc = child == group.Children.Last();
-
-                Dump(
-                    child, 
-                    dumpSnps,
-                    sb, 
-                    indentation + 1,
-                    !lc ? 
-                        siblingDepths
-                            .Concat(new[] { indentation })
-                            .ToArray() :
-                        siblingDepths,
-                    lc);
-            }
+                        "{0} ({1})",
+                        x.Name,
+                        x.Mutations.Select(y => y.Snp).Join(", ")),
+                x => x.Children);
         }
 
-        private static void RemoveFiller(Haplogroup group)
+        private static Haplogroup RemoveFiller(Haplogroup group)
         {
-            if (group.Name.StartsWith("FILLER_"))
-            {
-                group.Parent.Children.Remove(group);
-                group.Parent.Children.AddRange(group.Children);
-                foreach (var c in group.Children)
+            return Visitor.Where(
+                group,
+                x =>  !x.Name.StartsWith("FILLER_"),
+                (parent, child) =>
                 {
-                    c.Parent = group.Parent;
-                }
-            }
-
-            foreach (var c in group.Children.ToArray())
-            {
-                RemoveFiller(c);
-            }
+                    parent.Children.Add(child);
+                    child.Parent = parent;
+                },
+                (parent, child) => parent.Children.Remove(child),
+                x => x.Children);
         }
 
         private static string GetTreeFile(string filename)
         {
             return PathHelper.GetExecutingPath("trees", filename);
         }
+
 
         static void Main(string[] args)
         {
@@ -404,7 +366,7 @@ namespace HaplogroupTreeBuilder
                 lastCount = trees.Count;
             }
 
-            RemoveFiller(trunk);
+            trunk = RemoveFiller(trunk);
 
             if (!trees.Any())
             {
