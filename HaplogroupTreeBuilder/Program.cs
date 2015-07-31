@@ -416,7 +416,7 @@ namespace HaplogroupTreeBuilder
             }
 
             Cli.WriteLine("Loading SNP index");
-            var snpIndex = ParseSnpIndex(@"c:\23andme\ISOGG 2015 Y-DNA SNP Index.html");
+            var snpIndex = ParseSnpIndex(GetTreeFile("ISOGG 2015 Y-DNA SNP Index.html"));
             
             var snpHaplogroupTable = snpIndex
                 .GroupBy(x => x.Haplogroup)
