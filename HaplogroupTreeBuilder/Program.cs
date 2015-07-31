@@ -301,7 +301,6 @@ namespace HaplogroupTreeBuilder
         {
             for (int i = 0; i < indentation; i++)
             {
-
                 sb.Append(
                     lastChild && i == indentation - 1 ? "└" :
                     siblingDepths.Any() && siblingDepths.Last() == i && i == indentation - 1 ? "├" :
@@ -311,12 +310,12 @@ namespace HaplogroupTreeBuilder
 
             sb.AppendLine(group.Name);
             
-            foreach (var c in group.Children)
+            foreach (var child in group.Children)
             {
-                var lc = c == group.Children.Last();
+                var lc = child == group.Children.Last();
 
                 Dump(
-                    c, 
+                    child, 
                     sb, 
                     indentation + 1,
                     !lc ? 
