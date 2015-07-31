@@ -213,6 +213,7 @@
     <Compile Include="ThreadHelper.cs" />
     <Compile Include="TypeExtension.cs" />
     <Compile Include="TypeLoader.cs" />
+    <Compile Include="Visitor.cs" />
     <Compile Include="Wcf\WcfHelper.cs" />
     <Compile Include="Wpf\CompositeControl.cs" />
     <Compile Include="Wpf\ControlLoader.cs" />
