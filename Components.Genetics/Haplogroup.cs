@@ -13,6 +13,14 @@ namespace Components.Genetics
 
         public List<Haplogroup> Children { get; set; }
 
+        public List<HaplogroupMutation> Mutations { get; set; }
+
+        public Haplogroup()
+        {
+            Children = new List<Haplogroup>();
+            Mutations = new List<HaplogroupMutation>();
+        }
+
         public override string ToString()
         {
             return

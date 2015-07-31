@@ -213,18 +213,13 @@ namespace HaplogroupTreeBuilder
             var flatTree = ParseFlatTree(filename);
             var stack = new Stack<Haplogroup>();
 
-            stack.Push(new Haplogroup()
-            {
-                Name = flatTree.First().Key,
-                Children = new List<Haplogroup>(),
-            });
+            stack.Push(new Haplogroup() { Name = flatTree.First().Key });
 
             Action<string> add = x =>
             {
                 var g = new Haplogroup()
                 {
                     Name = x,
-                    Children = new List<Haplogroup>(),
                     Parent = stack.Peek(),
                 };
                 stack.Peek().Children.Add(g);
@@ -406,6 +401,33 @@ namespace HaplogroupTreeBuilder
             else
             {
                 Cli.WriteLine("~Yellow~Tree merge failed~r~");
+            }
+
+            Cli.WriteLine("Loading SNP index");
+            var snpIndex = ParseSnpIndex(@"c:\23andme\ISOGG 2015 Y-DNA SNP Index.html");
+            
+            var snpHaplogroupTable = snpIndex
+                .GroupBy(x => x.Haplogroup)
+                .ToDictionary(x => x.Key, x => x.ToArray());
+
+            Cli.WriteLine(
+                "~Cyan~{0:n0}~R~ SNPs loaded for ~Cyan~{1:n0}~R~ haplogroups", 
+                snpIndex.Length,
+                snpHaplogroupTable.Count);
+
+
+            var groupMatches = snpHaplogroupTable
+                .Select(x => new
+                {
+                    Group = FindHaplogroup(x.Key, trunk),
+                    Snps = x,
+                })
+                .Where(x => x.Group != null)
+                .ToArray();
+
+            foreach (var g in groupMatches)
+            {
+                g.Group.Mutations = g.Snps.Value.ToList();
             }
 
             Cli.WriteLine("Saving trees");
