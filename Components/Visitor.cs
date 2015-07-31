@@ -37,5 +37,65 @@ namespace Components
 
             return result;
         }
+
+        public static TElement Where<TElement>(
+            TElement element,
+            Func<TElement, bool> predicate,
+            Action<TElement, TElement> addChild,
+            Action<TElement, TElement> removeChild,
+            Func<TElement, IEnumerable<TElement>> getChildren)
+        {
+            return Where(element, default(TElement), predicate, addChild, removeChild, getChildren);
+        }
+
+        private static TElement Where<TElement>(
+            TElement element,
+            TElement parent,
+            Func<TElement, bool> predicate,
+            Action<TElement, TElement> addChild,
+            Action<TElement, TElement> removeChild,
+            Func<TElement, IEnumerable<TElement>> getChildren)
+        {
+            if (predicate(element))
+            {
+                foreach (var child in getChildren(element).ToArray())
+                {
+                    removeChild(element, child);
+
+                    var filteredChild = Where(
+                        child, 
+                        element, 
+                        predicate, 
+                        addChild, 
+                        removeChild, 
+                        getChildren);
+
+                    if (filteredChild != null &&
+                        !filteredChild.Equals(default(TElement)))
+                    {
+                        addChild(element, filteredChild);
+                    }
+                }
+                return element;
+            }
+            else
+            {
+                if (parent == null)
+                {
+                    throw new InvalidOperationException("Cannot filter root.");
+                }
+
+                var children = getChildren(element);
+
+                foreach (var child in children)
+                {
+                    addChild(parent, child);
+                }
+
+                removeChild(parent, element);
+
+                return default(TElement);
+            }
+        }
     }
 }
