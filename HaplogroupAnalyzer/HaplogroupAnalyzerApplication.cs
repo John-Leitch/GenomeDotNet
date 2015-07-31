@@ -123,17 +123,17 @@ namespace HaplogroupAnalyzer
 
                     var m = matchTable[x.Name];
 
-                    var value = (float)m.Length / snpIndexTable[x.Name].Length;
+                    var value = (float)m.Length / snpIndexTable[x.Name].Length * 100;
 
                     var color =
-                        value >= .75 ? ConsoleColor.Green :
-                        value >= .50 ? ConsoleColor.Yellow :
+                        value >= 75 ? ConsoleColor.Green :
+                        value >= 50 ? ConsoleColor.Yellow :
                         ConsoleColor.Red;
 
                     return new StringNode()
                     {
                         Value = string.Format(
-                            "{0}: ~{1}~{2:n2} ({3:n0}/{4:n0})~R~",
+                            "{0}: ~{1}~{2:n0}% ({3:n0}/{4:n0})~R~",
                             x.Name,
                             color,
                             value,
