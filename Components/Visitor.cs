@@ -17,7 +17,7 @@ namespace Components
 
             foreach (var c in getChildren(group))
             {
-                Visit(group, action, getChildren);
+                Visit(c, action, getChildren);
             }
         }
     }
