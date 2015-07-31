@@ -289,15 +289,21 @@ namespace HaplogroupTreeBuilder
             }
         }
 
-        private static string Dump(Haplogroup group)
+        private static string Dump(Haplogroup group, bool dumpSnps)
         {
             var sb = new StringBuilder();
-            Dump(group, sb, 0, new int[] { }, true);
+            Dump(group, dumpSnps, sb, 0, new int[] { }, true);
             
             return sb.ToString();
         }
 
-        private static void Dump(Haplogroup group, StringBuilder sb, int indentation, int[] siblingDepths, bool lastChild)
+        private static void Dump(
+            Haplogroup group,
+            bool dumpSnps,
+            StringBuilder sb, 
+            int indentation, 
+            int[] siblingDepths, 
+            bool lastChild)
         {
             for (int i = 0; i < indentation; i++)
             {
@@ -308,7 +314,13 @@ namespace HaplogroupTreeBuilder
                     " ");
             }
 
-            sb.AppendLine(group.Name);
+            sb.AppendLine(
+                !dumpSnps || !group.Mutations.Any() ? 
+                    group.Name :
+                    string.Format(
+                        "{0} ({1})", 
+                        group.Name,
+                        group.Mutations.Select(x => x.Snp).Join(", ")));
             
             foreach (var child in group.Children)
             {
@@ -316,6 +328,7 @@ namespace HaplogroupTreeBuilder
 
                 Dump(
                     child, 
+                    dumpSnps,
                     sb, 
                     indentation + 1,
                     !lc ? 
@@ -431,8 +444,8 @@ namespace HaplogroupTreeBuilder
 
             Cli.WriteLine("Saving trees");
             JsonSerializer.SerializeToFile(@"ydnatree.json", trunk);
-            var str = Dump(trunk);
-            File.WriteAllText(@"ydnatree.txt", str);
+            File.WriteAllText(@"ydnatree.txt", Dump(trunk, dumpSnps: true));
+            File.WriteAllText(@"ydnatree_nosnps.txt", Dump(trunk, dumpSnps: false));
             Cli.WriteLine("~Green~Done~R~");
         }
     }
