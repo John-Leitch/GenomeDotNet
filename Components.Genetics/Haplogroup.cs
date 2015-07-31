@@ -30,5 +30,10 @@ namespace Components.Genetics
                         Name, string.Join(", ", Children.Select(x => x.Name))) :
                 Name;
         }
+
+        public int GetDepth()
+        {
+            return Parent != null ? Parent.GetDepth() + 1 : 0;
+        }
     }
 }
