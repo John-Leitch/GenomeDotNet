@@ -56,26 +56,31 @@ namespace Components
             Action<TElement, TElement> removeChild,
             Func<TElement, IEnumerable<TElement>> getChildren)
         {
+            Action<TElement, TElement> filterChild = (p, c) =>
+            {
+                var filteredChild = Where(
+                        c,
+                        p,
+                        predicate,
+                        addChild,
+                        removeChild,
+                        getChildren);
+
+                if (filteredChild != null &&
+                    !filteredChild.Equals(default(TElement)))
+                {
+                    addChild(p, filteredChild);
+                }
+            };
+
             if (predicate(element))
             {
                 foreach (var child in getChildren(element).ToArray())
                 {
                     removeChild(element, child);
-
-                    var filteredChild = Where(
-                        child, 
-                        element, 
-                        predicate, 
-                        addChild, 
-                        removeChild, 
-                        getChildren);
-
-                    if (filteredChild != null &&
-                        !filteredChild.Equals(default(TElement)))
-                    {
-                        addChild(element, filteredChild);
-                    }
+                    filterChild(element, child);
                 }
+
                 return element;
             }
             else
@@ -86,15 +91,29 @@ namespace Components
                 }
 
                 var children = getChildren(element);
+                removeChild(parent, element);
 
                 foreach (var child in children)
                 {
-                    addChild(parent, child);
+                    filterChild(parent, child);
                 }
 
-                removeChild(parent, element);
-
                 return default(TElement);
+            }
+        }
+
+        public static bool Any<TElement>(
+            TElement element,
+            Func<TElement, bool> predicate,
+            Func<TElement, IEnumerable<TElement>> getChildren)
+        {
+            if (predicate(element))
+            {
+                return true;
+            }
+            else
+            {
+                return getChildren(element).Any(predicate);
             }
         }
     }
