@@ -53,6 +53,75 @@ namespace HaplogroupAnalyzer
             }
         }
 
+        private const float _nodeMatchThreshold = 0.5F;
+
+        private const float _haplogroupMatchThreshold = 0.5F;
+
+        private Tuple<int, int> CountNodeMatches(
+            Dictionary<Haplogroup, Tuple<int, int>> mutationTable,
+            Haplogroup child)
+        {
+            var node = child;
+
+            int count = 0, matches = 0;
+
+            do
+            {
+                var mutation = mutationTable[node];
+
+                if (mutation.Item2 > 0)
+                {
+                    count++;
+
+                    if ((float)mutation.Item1 / mutation.Item2 >=
+                        _nodeMatchThreshold)
+                    {
+                        matches++;
+                    }
+                }
+                
+                node = node.Parent;
+            } while (node != null);
+
+            return Tuple.Create(matches, count);
+        }
+
+        private Dictionary<Haplogroup, Tuple<int, int>> GetMutationMatches(
+            Haplogroup root,
+            Dictionary<int, Snp> snpTable)
+        {
+            var haplogroupMutations = new Dictionary<Haplogroup, Tuple<int, int>>();
+
+            root.Visit(x => haplogroupMutations.Add(
+                x,
+                Tuple.Create(
+                    x.Mutations
+                        .Count(y =>
+                            snpTable.ContainsKey(y.Position) &&
+                            snpTable[y.Position].Genotype[0] == y.NewNucleotide),
+                    x.Mutations.Count(y => snpTable.ContainsKey(y.Position)))));
+
+            return haplogroupMutations;
+        }
+
+        private Haplogroup FindHaplogroup(Haplogroup root, Dictionary<int, Snp> snpTable)
+        {
+            var mutationMatches = GetMutationMatches(root, snpTable);
+
+            var haplogroupMatches = mutationMatches
+                .Where(x => x.Value.Item1 != 0)
+                .Select(x => new
+                {
+                    Haplogroup = x.Key,
+                    Result = CountNodeMatches(mutationMatches, x.Key),
+                })
+                .Where(x => (float)x.Result.Item1/ x.Result.Item2 >= _haplogroupMatchThreshold)
+                .OrderByDescending(x => x.Result.Item2)
+                .ThenByDescending(x => x.Haplogroup.Name);
+
+            return haplogroupMatches.Select(x => x.Haplogroup).FirstOrDefault();
+        }
+
         public override void Main(HaplogroupAnalyzerArgs args)
         {
             WriteInfoMessage(
@@ -84,6 +153,7 @@ namespace HaplogroupAnalyzer
                     x.Mutations.Where(y => !mutations.Any(z => z.Snp == y.Snp))));
 
             WriteSuccessMessage("Y-DNA haplogroup tree loaded");
+            
             HaplogroupMutation[] snpIndex = mutations
                 .Where(x => snpTable.ContainsKey(x.Position))
                 .ToArray();
@@ -104,26 +174,26 @@ namespace HaplogroupAnalyzer
                 .GroupBy(x => x.Name)
                 .ToDictionary(x => x.Key, x => x.ToArray());
 
-            var tree2 = LoadYDnaTree()
-                .Where(x => x.Mutations.Count == 0 || matchTable.ContainsKey(x.Name))
+            var matchRoot = root
                 .Where(x => Visitor.Any(x, y => matchTable.ContainsKey(y.Name), y => y.Children));
 
+            var mutationMatches = GetMutationMatches(root, snpTable);
+
             var stringNodes = Visitor.Select(
-                tree2,
+                matchRoot,
                 x =>
                 {
-                    if (!matchTable.ContainsKey(x.Name))
+                    var m2 = mutationMatches[x];
+                    
+                    if (m2.Item2 == 0)
                     {
-                        
                         return new StringNode() 
                         { 
                             Value = "~DarkGray~" + x.Name + "~R~" 
                         };
                     }
 
-                    var m = matchTable[x.Name];
-
-                    var value = (float)m.Length / snpIndexTable[x.Name].Length * 100;
+                    var value = (float)m2.Item1 / m2.Item2 * 100;
 
                     var color =
                         value >= 75 ? ConsoleColor.Green :
@@ -137,8 +207,8 @@ namespace HaplogroupAnalyzer
                             x.Name,
                             color,
                             value,
-                            m.Length,
-                            snpIndexTable[x.Name].Length)
+                            m2.Item1,
+                            m2.Item2)
                     };
                 },
                 (p, c) => p.Children.Add(c),
@@ -148,18 +218,8 @@ namespace HaplogroupAnalyzer
             Cli.WriteSubheader("Haplogroup Matches", "~|Blue~~White~");
             Cli.WriteLine();
             Cli.WriteLine(StringTree.Create(stringNodes, x => x.Value, x => x.Children));
-
-            var matchesGrouped = matches
-                .Select(x => new
-                {
-                    Group = x,
-                    Depth = x.GetDepth()
-                })
-                .OrderByDescending(x => x.Depth)
-                .ToArray();
-
-            var deepest = matchesGrouped.First();
-            Cli.WriteLine("Deepest match: ~Cyan~{0}~R~", deepest.Group.Name);
+            var haplogroup = FindHaplogroup(root, snpTable);
+            Cli.WriteLine("Deepest match: ~Cyan~{0}~R~", haplogroup.Name);
         }
     }
 }
