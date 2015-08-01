@@ -113,7 +113,8 @@ namespace Components
             }
             else
             {
-                return getChildren(element).Any(predicate);
+                return getChildren(element)
+                    .Any(x => Any(x, predicate, getChildren));
             }
         }
     }
