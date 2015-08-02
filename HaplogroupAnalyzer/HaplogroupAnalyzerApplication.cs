@@ -146,18 +146,15 @@ namespace HaplogroupAnalyzer
             WriteInfoMessage("Loading Y-DNA haplogroup tree");
 
             Haplogroup root = LoadYDnaTree();
-            var mutations = new List<HaplogroupMutation>();
-
-            root.Visit(
-                x => mutations.AddRange(
-                    x.Mutations.Where(y => !mutations.Any(z => z.Snp == y.Snp))));
-
-            WriteSuccessMessage("Y-DNA haplogroup tree loaded");
             
-            HaplogroupMutation[] snpIndex = mutations
+            var snpIndex = JsonSerializer
+                .DeserializeFile<HaplogroupMutation[]>(
+                    PathHelper.GetExecutingPath("ydnasnps.json"))
                 .Where(x => snpTable.ContainsKey(x.Position))
                 .ToArray();
 
+            WriteSuccessMessage("Y-DNA haplogroup tree loaded");
+            
             var matches = snpIndex
                 .Where(x =>
                     snpTable.ContainsKey(x.Position) &&
