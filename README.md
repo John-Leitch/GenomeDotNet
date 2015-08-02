@@ -10,5 +10,7 @@ Looking around the internet for an easily parsable version of the ISOGG 2015 Y-D
 
 [2015 Y-DNA Haplogroup Text (with SNPs)](https://raw.githubusercontent.com/John-Leitch/GenomeDotNet/master/HaplogroupTrees/ydnatree.txt)
 
+[2015 Y-DNA SNP Index JSON](https://raw.githubusercontent.com/John-Leitch/GenomeDotNet/master/HaplogroupTrees/ydnasnps.json)
+
 ## Disclaimer
 I am a software developer, not a geneticist. As such, this software probably shouldn't be used for anything outside of entertainment. 
