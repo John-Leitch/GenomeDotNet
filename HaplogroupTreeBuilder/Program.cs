@@ -326,7 +326,7 @@ namespace HaplogroupTreeBuilder
         {
             Cli.WriteLine("Saving SNP index");
             JsonSerializer.SerializeToFile(
-                @"SnpIndex.json", 
+                @"ydnasnps.json", 
                 snpIndex.OrderBy(x => x.Snp).ToArray());
         }
 
