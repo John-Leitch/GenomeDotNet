@@ -219,7 +219,7 @@ namespace HaplogroupAnalyzer
             Cli.WriteLine();
             Cli.WriteLine(StringTree.Create(stringNodes, x => x.Value, x => x.Children));
             var haplogroup = FindHaplogroup(root, snpTable);
-            Cli.WriteLine("Deepest match: ~Cyan~{0}~R~", haplogroup.Name);
+            Cli.WriteLine("Best match: ~Cyan~{0}~R~", haplogroup.Name);
         }
     }
 }
