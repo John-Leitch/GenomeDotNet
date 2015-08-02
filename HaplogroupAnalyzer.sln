@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HaplogroupTrees", "Haplogro
 		HaplogroupTrees\ydnatree.json = HaplogroupTrees\ydnatree.json
 		HaplogroupTrees\ydnatree.txt = HaplogroupTrees\ydnatree.txt
 		HaplogroupTrees\ydnatree_nosnps.txt = HaplogroupTrees\ydnatree_nosnps.txt
+		HaplogroupTrees\ydnasnps.json = HaplogroupTrees\ydnasnps.json
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HaplogroupAnalyzer", "HaplogroupAnalyzer\HaplogroupAnalyzer.csproj", "{286F2524-DB92-4064-8BEF-DA675EBC31BD}"
