@@ -13,8 +13,6 @@ namespace HaplogroupTreeBuilder
 {
     class Program
     {
-        
-
         private static string UnwrapValue(HtmlNode node)
         {
             if (node.Name == "#text")
@@ -324,6 +322,13 @@ namespace HaplogroupTreeBuilder
             return PathHelper.GetExecutingPath("trees", filename);
         }
 
+        private static void SaveSnpIndex(HaplogroupMutation[] snpIndex)
+        {
+            Cli.WriteLine("Saving SNP index");
+            JsonSerializer.SerializeToFile(
+                @"SnpIndex.json", 
+                snpIndex.OrderBy(x => x.Snp).ToArray());
+        }
 
         static void Main(string[] args)
         {
@@ -379,6 +384,7 @@ namespace HaplogroupTreeBuilder
 
             Cli.WriteLine("Loading SNP index");
             var snpIndex = ParseSnpIndex(GetTreeFile("ISOGG 2015 Y-DNA SNP Index.html"));
+            SaveSnpIndex(snpIndex);
             
             var snpHaplogroupTable = snpIndex
                 .GroupBy(x => x.Haplogroup)
