@@ -5,6 +5,7 @@ using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -383,7 +384,13 @@ namespace HaplogroupTreeBuilder
             }
 
             Cli.WriteLine("Loading SNP index");
-            var snpIndex = ParseSnpIndex(GetTreeFile("ISOGG 2015 Y-DNA SNP Index.html"));
+            var snpIndexZipFile = GetTreeFile("ISOGG 2015 Y-DNA SNP Index.zip");
+            var tempDir = PathHelper.GetExecutingPath("Temp");
+            Directory.CreateDirectory(tempDir);
+            ZipFile.ExtractToDirectory(snpIndexZipFile, tempDir);
+            var snpIndexHtmlFile = Path.Combine(tempDir, "ISOGG 2015 Y-DNA SNP Index.html");
+            var snpIndex = ParseSnpIndex(GetTreeFile(snpIndexHtmlFile));
+            File.Delete(snpIndexHtmlFile);
             SaveSnpIndex(snpIndex);
             
             var snpHaplogroupTable = snpIndex
